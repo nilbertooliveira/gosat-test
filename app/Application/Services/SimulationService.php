@@ -9,6 +9,7 @@ use App\Domains\Interfaces\Repositories\IModalityRepository;
 use App\Domains\Interfaces\Repositories\ISimulationRepository;
 use App\Domains\Interfaces\Services\ISimulationService;
 use App\Domains\ValueObjects\Cpf;
+use App\Infrastructure\Database\Models\Simulation;
 use Exception;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
@@ -327,5 +328,15 @@ class SimulationService implements ISimulationService
         } catch (\Throwable $e) {
             return new ResponseService($e->getMessage(), false);
         }
+    }
+
+    /**
+     * @return ResponseService
+     */
+    public function getDatasets(): ResponseService
+    {
+        $collections = $this->simulationRepository->findAll();
+
+        return new ResponseService($collections->jsonSerialize());
     }
 }

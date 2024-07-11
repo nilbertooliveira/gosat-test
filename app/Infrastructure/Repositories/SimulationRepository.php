@@ -4,8 +4,8 @@ namespace App\Infrastructure\Repositories;
 
 use App\Domains\Interfaces\Repositories\ISimulationRepository;
 use App\Infrastructure\Database\Models\Simulation;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+
 
 class SimulationRepository implements ISimulationRepository
 {
@@ -28,12 +28,14 @@ class SimulationRepository implements ISimulationRepository
         return $this->simulation->create($data);
     }
 
-    /**
-     * @param Request $request
-     * @return Collection
-     */
-    public function findAll(Request $request): Collection
+
+    public function findAll(): Collection
     {
-        return $this->simulation->get();
+        $simulations = $this->simulation->with('modality.institution')->get();
+
+        return $simulations->groupBy('modality.institution.name')
+            ->map(function ($institutionGroup) {
+                return $institutionGroup->sum('total_amount');
+            });
     }
 }

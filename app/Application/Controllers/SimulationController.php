@@ -78,4 +78,16 @@ class SimulationController extends Controller
     {
         return view('simulation.credit');
     }
+
+    public function chart(): View
+    {
+        $dataSets = $this->simulationService->getDatasets();
+
+        $labels = array_keys($dataSets->getData());
+        $data = array_values($dataSets->getData());
+
+        return view('simulation.chart', compact('labels', 'data'));
+    }
+
+
 }

@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Application\Services\AuthService;
-use App\Application\Services\GraphicalReportService;
 use App\Application\Services\InstitutionService;
 use App\Application\Services\ModalityService;
 use App\Application\Services\SimulationService;
@@ -12,7 +11,6 @@ use App\Domains\Interfaces\Repositories\IModalityRepository;
 use App\Domains\Interfaces\Repositories\ISimulationRepository;
 use App\Domains\Interfaces\Repositories\IUserRepository;
 use App\Domains\Interfaces\Services\IAuthService;
-use App\Domains\Interfaces\Services\IGraphicalReportService;
 use App\Domains\Interfaces\Services\IInstitutionService;
 use App\Domains\Interfaces\Services\IModalityService;
 use App\Domains\Interfaces\Services\ISimulationService;
@@ -38,7 +36,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IModalityRepository::class, ModalityRepository::class);
         $this->app->bind(ISimulationService::class, SimulationService::class);
         $this->app->bind(ISimulationRepository::class, SimulationRepository::class);
-        $this->app->bind(IGraphicalReportService::class, GraphicalReportService::class);
     }
 
     /**

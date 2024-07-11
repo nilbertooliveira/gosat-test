@@ -22,3 +22,7 @@ Route::middleware('guest')
 Route::middleware('auth:sanctum')
     ->get('/credit', [SimulationController::class, 'creditView'])
     ->name('simulation.credit-view');
+
+Route::middleware('auth:sanctum')
+    ->get('/chart', [SimulationController::class, 'chart'])
+    ->name('simulation.chart');

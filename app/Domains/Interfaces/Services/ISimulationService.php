@@ -20,4 +20,6 @@ interface ISimulationService
     public function store(array $simulations): ResponseService;
 
     public function findAll(Request $request): ResponseService;
+
+    public function getDatasets(): ResponseService;
 }
