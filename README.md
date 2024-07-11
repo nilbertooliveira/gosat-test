@@ -38,7 +38,7 @@ OBS: Portas 80, 8081, 3306 e 6379 precisam estar liberadas.
 
 ##### Usuário:
 ```
-Host: https://54.198.116.11/
+Host: https://54.92.158.85/
 Email: administrator@test.com.br
 Password: 123456
 ```
