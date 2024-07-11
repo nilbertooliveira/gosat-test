@@ -4,6 +4,7 @@ namespace App\Application\Services;
 
 use App\Application\DTOs\OfferDTO;
 use App\Domains\Interfaces\DTOInterface;
+use App\Domains\Interfaces\Repositories\ISimulationRepository;
 use App\Domains\Interfaces\Services\ISimulationService;
 use App\Domains\ValueObjects\Cpf;
 use Illuminate\Http\Client\ConnectionException;
@@ -16,6 +17,15 @@ use Throwable;
 class SimulationService implements ISimulationService
 {
     private Collection $simulationsCollection;
+    private ISimulationRepository $simulationRepository;
+
+    /**
+     * @param ISimulationRepository $simulationRepository
+     */
+    public function __construct(ISimulationRepository $simulationRepository)
+    {
+        $this->simulationRepository = $simulationRepository;
+    }
 
     /**
      * @param Cpf $cpf
@@ -239,5 +249,35 @@ class SimulationService implements ISimulationService
             ->sortBy('valorAPagar')
             ->values()
             ->take(3);
+    }
+
+    /**
+     * @param Request $request
+     * @return ResponseService
+     */
+    public function store(Request $request): ResponseService
+    {
+        try {
+            $result = $this->simulationRepository->store($request);
+
+            return new ResponseService($result->jsonSerialize());
+        } catch (\Throwable $e) {
+            return new ResponseService($e->getMessage(), false);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return ResponseService
+     */
+    public function findAll(Request $request): ResponseService
+    {
+        try {
+            $result = $this->simulationRepository->findAll($request);
+
+            return new ResponseService($result->jsonSerialize());
+        } catch (\Throwable $e) {
+            return new ResponseService($e->getMessage(), false);
+        }
     }
 }
