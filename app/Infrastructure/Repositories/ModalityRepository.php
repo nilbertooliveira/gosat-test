@@ -21,12 +21,19 @@ class ModalityRepository implements IModalityRepository
     }
 
     /**
-     * @param Request $request
+     * @param array $data
      * @return Modality
      */
-    public function store(Request $request): Modality
+    public function store(array $data): Modality
     {
-        return $this->modality->create($request->all());
+        return $this->modality->firstOrCreate(
+            [
+                'name' => $data['name'],
+                'code' => $data['code'],
+                'institution_id' => $data['instituicao_id']
+            ],
+            $data
+        );
     }
 
     /**

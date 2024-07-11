@@ -17,7 +17,7 @@ interface ISimulationService
 
     public function calculate(Request $request): ResponseService;
 
-    public function store(Request $request): ResponseService;
+    public function store(array $simulations): ResponseService;
 
     public function findAll(Request $request): ResponseService;
 }

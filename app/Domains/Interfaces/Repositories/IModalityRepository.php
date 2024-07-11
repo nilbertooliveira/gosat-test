@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 interface IModalityRepository
 {
-    public function store(Request $request): Modality;
+    public function store(array $data): Modality;
 
     public function findAll(Request $request): Collection;
 }

@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 interface ISimulationRepository
 {
-    public function store(Request $request): Simulation;
+    public function store(array $data): Simulation;
 
     public function findAll(Request $request): Collection;
 }

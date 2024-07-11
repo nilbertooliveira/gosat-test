@@ -20,12 +20,17 @@ class InstitutionRepository implements IInstitutionRepository
     }
 
     /**
-     * @param Request $request
+     * @param array $data
      * @return Institution
      */
-    public function store(Request $request): Institution
+    public function store(array $data): Institution
     {
-        return $this->institution->create($request->all());
+        return $this->institution->firstOrCreate(
+            [
+                'code' => $data['code']
+            ],
+            $data
+        );
     }
 
     /**

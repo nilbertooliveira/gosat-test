@@ -4,27 +4,40 @@ namespace App\Application\Services;
 
 use App\Application\DTOs\OfferDTO;
 use App\Domains\Interfaces\DTOInterface;
+use App\Domains\Interfaces\Repositories\IInstitutionRepository;
+use App\Domains\Interfaces\Repositories\IModalityRepository;
 use App\Domains\Interfaces\Repositories\ISimulationRepository;
 use App\Domains\Interfaces\Services\ISimulationService;
 use App\Domains\ValueObjects\Cpf;
+use Exception;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Throwable;
 
 class SimulationService implements ISimulationService
 {
     private Collection $simulationsCollection;
+    private IInstitutionRepository $institutionRepository;
+    private IModalityRepository $modalityRepository;
     private ISimulationRepository $simulationRepository;
 
     /**
+     * @param IInstitutionRepository $institutionRepository
+     * @param IModalityRepository $modalityRepository
      * @param ISimulationRepository $simulationRepository
      */
-    public function __construct(ISimulationRepository $simulationRepository)
+    public function __construct(
+        IInstitutionRepository $institutionRepository,
+        IModalityRepository    $modalityRepository,
+        ISimulationRepository  $simulationRepository)
     {
         $this->simulationRepository = $simulationRepository;
+        $this->institutionRepository = $institutionRepository;
+        $this->modalityRepository = $modalityRepository;
     }
 
     /**
@@ -108,6 +121,7 @@ class SimulationService implements ISimulationService
         try {
             $result = $this->getCache($request);
             if (!is_null($result)) {
+                $this->store($result->jsonSerialize());//caso queira historico full
                 return new ResponseService($result->jsonSerialize());
             }
 
@@ -128,6 +142,8 @@ class SimulationService implements ISimulationService
             $collection = $this->getSimulationsOrdered();
 
             $this->setCache($collection, $request);
+
+            $this->store($collection->jsonSerialize());
 
             return new ResponseService($collection->jsonSerialize());
         } catch (Throwable $e) {
@@ -159,7 +175,9 @@ class SimulationService implements ISimulationService
 
             $data = [
                 'instituicaoFinanceira' => $nameInstitution,
+                'instituicao_id' => $idInstitution,
                 'modalidadeCredito' => $modality['nome'],
+                'cod' => $modality['cod'],
             ];
 
             $credits = $response->json();
@@ -251,20 +269,50 @@ class SimulationService implements ISimulationService
             ->take(3);
     }
 
-    /**
-     * @param Request $request
-     * @return ResponseService
-     */
-    public function store(Request $request): ResponseService
-    {
-        try {
-            $result = $this->simulationRepository->store($request);
 
-            return new ResponseService($result->jsonSerialize());
+    /**
+     * @param array $simulations
+     * @return ResponseService
+     * @throws Exception
+     */
+    public function store(array $simulations): ResponseService
+    {
+        DB::beginTransaction();
+
+        try {
+            foreach ($simulations as $simulation) {
+                $data = [
+                    'name' => $simulation['instituicaoFinanceira'],
+                    'code' => $simulation['instituicao_id'],
+                ];
+                $institution = $this->institutionRepository->store($data);
+
+                $data = [
+                    'name' => $simulation['modalidadeCredito'],
+                    'code' => $simulation['cod'],
+                    'instituicao_id' => $institution->id,
+                    'instituicao_code' => $simulation['instituicao_id']
+                ];
+                $modality = $this->modalityRepository->store($data);
+
+                $data = [
+                    'modality_id' => $modality->id,
+                    'total_amount' => $simulation['valorAPagar'],
+                    'amount_requested' => $simulation['valorSolicitado'],
+                    'monthly_interest_rate' => $simulation['taxaJuros'],
+                    'quantity_installment' => $simulation['qntParcelas']
+                ];
+                $this->simulationRepository->store($data);
+            }
+            DB::commit();
+
+            return new ResponseService('Simulação criada!');
         } catch (\Throwable $e) {
-            return new ResponseService($e->getMessage(), false);
+            DB::rollBack();
+            throw new Exception($e->getMessage());
         }
     }
+
 
     /**
      * @param Request $request

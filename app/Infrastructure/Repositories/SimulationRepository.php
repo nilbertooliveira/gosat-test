@@ -20,12 +20,12 @@ class SimulationRepository implements ISimulationRepository
     }
 
     /**
-     * @param Request $request
+     * @param array $data
      * @return Simulation
      */
-    public function store(Request $request): Simulation
+    public function store(array $data): Simulation
     {
-        return $this->simulation->create($request->all());
+        return $this->simulation->create($data);
     }
 
     /**

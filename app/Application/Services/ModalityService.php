@@ -25,7 +25,7 @@ class ModalityService implements IModalityService
     public function store(Request $request): ResponseService
     {
         try {
-            $result = $this->modalityRepository->store($request);
+            $result = $this->modalityRepository->store($request->all());
 
             return new ResponseService($result->jsonSerialize());
         } catch (\Throwable $e) {

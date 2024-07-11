@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('institutions', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique()->index();
+            $table->uuid('code')->index();
             $table->timestamps();
         });
     }

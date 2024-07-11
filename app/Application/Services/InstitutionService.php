@@ -27,7 +27,7 @@ class InstitutionService implements IInstitutionService
     public function store(Request $request): ResponseService
     {
         try {
-            $result = $this->institutionRepository->store($request);
+            $result = $this->institutionRepository->store($request->all());
 
             return new ResponseService($result->jsonSerialize());
         } catch (\Throwable $e) {

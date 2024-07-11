@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 interface IInstitutionRepository
 {
-    public function store(Request $request): Institution;
+    public function store(array $data): Institution;
 
     public function findAll(Request $request): Collection;
 }

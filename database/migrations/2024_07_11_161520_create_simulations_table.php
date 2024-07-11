@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('modality_id');
             $table->foreign('modality_id')->references('id')->on('modalities');
-            $table->double('totalAmount');
-            $table->double('amountRequested');
-            $table->double('monthlyInterestRate');
-            $table->integer('quantityInstallment');
+            $table->double('total_amount');
+            $table->double('amount_requested');
+            $table->double('monthly_interest_rate');
+            $table->integer('quantity_installment');
             $table->timestamps();
         });
     }
