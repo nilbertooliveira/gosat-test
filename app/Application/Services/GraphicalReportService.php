@@ -25,6 +25,7 @@ class GraphicalReportService implements  IGraphicalReportService
      */
     public function generate(Request $request): ResponseService
     {
-        // TODO: Implement generate() method.
+        $this->institutionRepository->findAll();
+        return new ResponseService('Simulação criada!');
     }
 }

@@ -34,11 +34,10 @@ class InstitutionRepository implements IInstitutionRepository
     }
 
     /**
-     * @param Request $request
      * @return Collection
      */
-    public function findAll(Request $request): Collection
+    public function findAll(): Collection
     {
-        return $this->institution->get($request->all());
+        return $this->institution->get();
     }
 }

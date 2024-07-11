@@ -34,6 +34,6 @@ class SimulationRepository implements ISimulationRepository
      */
     public function findAll(Request $request): Collection
     {
-        return $this->simulation->get($request->all());
+        return $this->simulation->get();
     }
 }

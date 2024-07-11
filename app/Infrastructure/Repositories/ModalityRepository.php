@@ -42,6 +42,6 @@ class ModalityRepository implements IModalityRepository
      */
     public function findAll(Request $request): Collection
     {
-        return $this->modality->get($request->all());
+        return $this->modality->get();
     }
 }

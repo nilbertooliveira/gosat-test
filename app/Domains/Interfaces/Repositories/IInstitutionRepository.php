@@ -10,5 +10,5 @@ interface IInstitutionRepository
 {
     public function store(array $data): Institution;
 
-    public function findAll(Request $request): Collection;
+    public function findAll(): Collection;
 }

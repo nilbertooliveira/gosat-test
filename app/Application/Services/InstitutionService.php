@@ -42,7 +42,7 @@ class InstitutionService implements IInstitutionService
     public function findAll(Request $request): ResponseService
     {
         try {
-            $result = $this->institutionRepository->findAll($request);
+            $result = $this->institutionRepository->findAll();
 
             return new ResponseService($result->jsonSerialize());
         } catch (\Throwable $e) {
