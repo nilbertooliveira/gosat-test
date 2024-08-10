@@ -37,11 +37,11 @@ Route::get('/template', function () {
         'idade' => 35,
         'sexo' => 'M',
         'pais' => 'Brasil',
-        'estado' => 'minas gerais',
+        'estado' => 'Minas gerais',
         'cidade' => 'Belo Horizonte',
-        'bairro' => 'Belo Horizonte',
-        'rua' => 'Belo Horizonte',
-        'numero' => 'Belo Horizonte',
+        'bairro' => 'Nova Gameleira',
+        'rua' => 'Cândido de Souza',
+        'numero' => 994,
     ];
     $variablesLiquid = array_keys($data);
 

@@ -9,8 +9,9 @@
                         <div class="row">
                             <div class="card-body">
                                 <div class="ui-widget">
-                                    <textarea id="template"></textarea>
+                                    <textarea id="template" rows="5" cols="50"></textarea>
                                 </div>
+                                <br>
 
                                 <div id="preview"></div>
                             </div>
@@ -50,8 +51,6 @@
                         $('#preview').html(response);
                     }
                 });
-
-                return false;
             },
             source: function (request, response) {
                 const templateContent = $('#template').val();
@@ -106,5 +105,20 @@
             }
             return balance === 0; // Chaves balanceadas
         }
+
+        //caso queira trocar por js
+        function renderTemplate(template, data) {
+            const engine = new Liquid();
+
+            return engine.parseAndRender(template, data)
+                .then(html => {
+                    return html;
+                })
+                .catch(err => {
+
+                    return null;
+                });
+        }
+
     </script>
 @endsection
