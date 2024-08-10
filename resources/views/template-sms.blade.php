@@ -9,7 +9,7 @@
                         <div class="row">
                             <div class="card-body">
                                 <div class="ui-widget">
-                                    <textarea id="template"></textarea>
+                                    <textarea id="template"  rows="5" cols="50"></textarea>
                                 </div>
 
                                 <div id="preview"></div>
