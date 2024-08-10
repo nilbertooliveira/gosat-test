@@ -21,20 +21,21 @@
         </div>
     </div>
 
-
-
     <script>
-
         $('#template').autocomplete({
             select: function (event, ui) {
 
                 const template = $('#template').val();
-                const regex = /\{\{\}\}$/;
+                const regex = /\{\{}}$/;
                 const newTemplate = template.replace(regex, ui.item.value);
 
                 $('#template').val(newTemplate);
 
                 const data = @json($data);
+
+                if (!isBalanced(template)) {
+                    return false;
+                }
 
                 // Envia o template completo para o servidor
                 $.ajax({
@@ -54,7 +55,7 @@
             },
             source: function (request, response) {
                 const templateContent = $('#template').val();
-                const regex = /\{\{\}\}/i;
+                const regex = /\{\{}}/i;
                 let matches = request.term.match(regex);
 
                 if (templateContent.includes(matches)) {
@@ -68,12 +69,15 @@
                     }));
                 }
             }
-        })
-        ;
+        });
 
         $("#template").on('input', function () {
             const template = $(this).val();
             const data = @json($data);
+
+            if (!isBalanced(template)) {
+                return false;
+            }
 
             $.ajax({
                 url: '/render',
@@ -87,5 +91,20 @@
                 }
             });
         });
+
+        function isBalanced(str) {
+            let balance = 0;
+            for (let i = 0; i < str.length; i++) {
+                if (str[i] === '{') {
+                    balance++;
+                } else if (str[i] === '}') {
+                    balance--;
+                    if (balance < 0) {
+                        return false; // Chaves desbalanceadas
+                    }
+                }
+            }
+            return balance === 0; // Chaves balanceadas
+        }
     </script>
 @endsection
