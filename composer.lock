@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6d11958947e4cf6da6fc2c7a22702127",
+    "content-hash": "e0b32a8aa6bedff5130444ed14da604f",
     "packages": [
         {
             "name": "arielmejiadev/larapex-charts",
@@ -1995,6 +1995,75 @@
                 }
             ],
             "time": "2024-01-28T23:22:08+00:00"
+        },
+        {
+            "name": "liquid/liquid",
+            "version": "1.4.42",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kalimatas/php-liquid.git",
+                "reference": "de705d5629f037ce078ae068fd98c6cd2ef6ba51"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kalimatas/php-liquid/zipball/de705d5629f037ce078ae068fd98c6cd2ef6ba51",
+                "reference": "de705d5629f037ce078ae068fd98c6cd2ef6ba51",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4 || ^8.0"
+            },
+            "require-dev": {
+                "ergebnis/composer-normalize": ">=2.8",
+                "friendsofphp/php-cs-fixer": "^3.22",
+                "infection/infection": ">=0.17.6",
+                "php-coveralls/php-coveralls": "^2.2",
+                "phpunit/phpunit": "^9.2.6"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Liquid\\": "src/Liquid"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guz Alexander",
+                    "email": "kalimatas@gmail.com",
+                    "homepage": "http://guzalexander.com"
+                },
+                {
+                    "name": "Harald Hanek"
+                },
+                {
+                    "name": "Mateo Murphy"
+                },
+                {
+                    "name": "Alexey Kopytko",
+                    "email": "alexey@kopytko.com",
+                    "homepage": "https://www.alexeykopytko.com/"
+                }
+            ],
+            "description": "Liquid template engine for PHP",
+            "homepage": "https://github.com/kalimatas/php-liquid",
+            "keywords": [
+                "liquid",
+                "template"
+            ],
+            "support": {
+                "issues": "https://github.com/kalimatas/php-liquid/issues",
+                "source": "https://github.com/kalimatas/php-liquid/tree/1.4.42"
+            },
+            "time": "2024-03-19T10:22:06+00:00"
         },
         {
             "name": "monolog/monolog",
